@@ -1,0 +1,82 @@
+# ============================================================
+# AngryMouse Fork —— .gitignore
+# 基于上游 Jamir-boop/AngryMouse，多目标 .NET
+# （net472 / net6.0-windows / net8.0-windows / net10.0-windows）WPF 项目
+# ============================================================
+
+# ---------- 编译 / 构建输出 ----------
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# ClickOnce / 发布（dotnet publish 输出目录）
+publish/
+Publish/
+AppPublish/
+
+# ---------- NuGet ----------
+# 项目使用 PackageReference，包由 `dotnet restore` 还原到全局缓存，无需入库
+packages/
+*.nupkg
+*.nuspec
+project.lock.json
+nuget-packages.config
+
+# 根目录遗留的 NuGet 包解压目录（旧 packages.config 时代残留，应还原而非提交）
+System.Buffers.4.5.1/
+System.Memory.4.5.4/
+System.Numerics.Vectors.4.5.0/
+System.Resources.Extensions.5.0.0/
+System.Runtime.CompilerServices.Unsafe.4.5.3/
+
+# ---------- Visual Studio / 各类 IDE ----------
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+.idea/
+*.userprefs
+
+# 用户指定的智能体 / 工具本地数据目录（不入库）
+.agent/
+.codex/
+.workbuddy/
+
+# ---------- 构建缓存 ----------
+*.cache
+*.tmp
+*.log
+
+# ---------- 发布产物（本地保留，用 Tools/Packaging/pack.ps1 重新生成） ----------
+dist/
+
+# ---------- 上游参考快照（开发期基线比对用，不入库） ----------
+.origin_extract/
+.origin_2.12.1/
+AngryMouse-2.9.5-source-code/
+AngryMouse-2.12.1.zip
+
+# ---------- Python（检测器 / 生成器 / 测试脚本的运行时副产物） ----------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# ---------- 测试 / 覆盖率 ----------
+TestResults/
+[Tt]est[Rr]esult*/
+
+# ---------- 操作系统 ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------- 临时合并预览（工具产物） ----------
+.merge_preview/

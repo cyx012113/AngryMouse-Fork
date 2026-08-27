@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net472;net6.0-windows;net8.0-windows;net10.0-windows</TargetFrameworks>
+    <RootNamespace>AngryMouse</RootNamespace>
+    <AssemblyName>AngryMouse</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Nullable>disable</Nullable>
+    <ApplicationVersion>2.12.1.0</ApplicationVersion>
+  </PropertyGroup>
+
+  <!-- .NET Framework specific -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- NuGet packages -->
+  <ItemGroup>
+  </ItemGroup>
+
+  <!-- MouseKeyHook: version per framework -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="MouseKeyHook" Version="5.6.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net472'">
+    <PackageReference Include="MouseKeyHook" Version="5.7.1" />
+  </ItemGroup>
+
+  <!-- System.Resources.Extensions: .NET Framework only (built-in for .NET 6+) -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+  </ItemGroup>
+
+  <!-- .NET Framework assembly references -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <!-- Resources -->
+  <ItemGroup>
+    <Content Include="Resources\CursorCollections\**\*.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- 角色热点偏移等元数据：运行时由 CursorCollectionManager 复制到用户数据目录，
+         使分发包自带的正确焦点位置生效。 -->
+    <Content Include="Resources\CursorCollections\**\cursor-settings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\icon.ico" />
+    <None Include="Resources\IconPng.png" />
+  </ItemGroup>
+
+  <!-- 智能热点检测器（Python 跨语言调用）：部署到输出目录 HotspotDetector/ 下，
+       供 HotspotDetectionService.ResolveScript 直接定位；缺 Python 时自动回退 C# 启发式。 -->
+  <ItemGroup>
+    <Content Include="..\Tools\HotspotDetector\hotspot_detector.py">
+      <Link>HotspotDetector\hotspot_detector.py</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
